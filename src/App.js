@@ -1,25 +1,62 @@
-import logo from './logo.svg';
-import './App.css';
+import Navbar from "./Navbar";
+import { Box, CssBaseline, Toolbar } from "@mui/material";
+import Routing from "./Routing";
+import React, { useState } from "react";
+import { MyContext, DrawerContext } from "./Context";
 
-function App() {
+const allTodoData = [
+  { id: 0, title: "myTodo", description: "hello i am todo description" }
+];
+let nextId = 1;
+export default function App() {
+  const [allData, setAllData] = useState(allTodoData);
+
+  function showTodo(mytitle, mydesc) {
+    setAllData([
+      ...allData,
+      {
+        id: nextId++,
+        title: mytitle,
+        description: mydesc
+      }
+    ]);
+  }
+  function deleteTodo(item) {
+    setAllData(allData.filter((oldItem) => oldItem.id !== item));
+  }
+
+  function editTodo(NewTitle) {
+    setAllData(
+      allData.map((item) => {
+        if (item.id === NewTitle.id) {
+          return NewTitle;
+        } else {
+          return item;
+        }
+      })
+    );
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <MyContext.Provider value={allData} DrawerContext={DrawerContext}>
+        {/* {console.log(allData)} */}
+
+        <Box sx={{ display: "flex" }}>
+          <Navbar />
+          <CssBaseline />
+          <Box
+            component="main"
+            sx={{ flexGrow: 1, bgcolor: "background.default", p: 1.5 }}
+          >
+            <Toolbar />
+            <Routing
+              deleteTodo={deleteTodo}
+              editTodo={editTodo}
+              displayTodo={showTodo}
+            />
+          </Box>
+        </Box>
+      </MyContext.Provider>
+    </>
   );
 }
-
-export default App;
