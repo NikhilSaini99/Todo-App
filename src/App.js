@@ -3,6 +3,12 @@ import { Box, CssBaseline, Toolbar } from "@mui/material";
 import Routing from "./Routing";
 import React, { useState } from "react";
 import { MyContext, DrawerContext } from "./Context";
+import Login from "./LoginForm";
+import RegisterForm from "./RegisterForm";
+import TodoContent from "./TodoContent";
+import PageNotFound from "./PageNotFound";
+
+
 
 const allTodoData = [
   { id: 0, title: "myTodo", description: "hello i am todo description" }
@@ -38,9 +44,9 @@ export default function App() {
   }
   return (
     <>
-      <MyContext.Provider value={allData} DrawerContext={DrawerContext}>
-        {/* {console.log(allData)} */}
 
+
+    <MyContext.Provider value={allData} DrawerContext={DrawerContext}>  
         <Box sx={{ display: "flex" }}>
           <Navbar />
           <CssBaseline />
